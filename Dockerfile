@@ -34,6 +34,7 @@ COPY . .
 
 # Install Berkeley Database
 WORKDIR bitcoin
+RUN chmod 777 ./contrib/install_db4.sh && chmod +x ./contrib/install_db4.sh
 RUN ./contrib/install_db4.sh `pwd`
 
 # Install bitcoin
