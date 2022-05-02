@@ -3,7 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - 'maaster'
+      - 'master'
 
   schedule:
      # actually, ~5 minutes is the highest
