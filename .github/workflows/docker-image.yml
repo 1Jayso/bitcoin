@@ -32,7 +32,7 @@ jobs:
           git commit -am "Merged from upstream"
           git push origin master
           
-   docker:
+  docker:
     runs-on: ubuntu-latest
     steps:
       -
