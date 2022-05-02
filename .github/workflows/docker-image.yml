@@ -1,6 +1,10 @@
 name: Docker Image CI
 # .github/workflows/example.yml
 on:
+  push:
+    branches:
+      - 'maaster'
+
   schedule:
      # actually, ~5 minutes is the highest
      # effective frequency you will get
