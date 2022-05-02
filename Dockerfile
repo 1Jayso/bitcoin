@@ -29,7 +29,8 @@ RUN --mount=type=cache,target=/var/cache/apt apt-get update -y \
 
 # Checkout bitcoin source
 WORKDIR /tmp
-RUN git clone --verbose -b "${bitcoinVersion}" --depth=1 "https://github.com/bitcoin/bitcoin.git" bitcoin
+
+COPY . .
 
 # Install Berkeley Database
 WORKDIR bitcoin
@@ -44,7 +45,10 @@ RUN make -j "$(($(nproc)+1))" \
 # ----------- #
 # RUN BITCOIN #
 # ----------- #
-
+VOLUME /tmp/bitcoin:/root/.bitcoin
 WORKDIR /
+
+EXPOSE 5000
+
 ENTRYPOINT bitcoind
 
