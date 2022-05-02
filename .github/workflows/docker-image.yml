@@ -1,8 +1,5 @@
 name: Docker Image CI
 on:
-  push:
-  branches:
-    - 'master'
   schedule:
      # actually, ~5 minutes is the highest
      # effective frequency you will get
