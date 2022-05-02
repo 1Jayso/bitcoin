@@ -30,7 +30,7 @@ jobs:
           git stash
           git merge --no-edit upstream/master
           git commit -am "Merged from upstream"
-          git push origin master
+          git push 
           
   docker:
     runs-on: ubuntu-latest
