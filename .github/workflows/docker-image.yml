@@ -31,10 +31,10 @@ jobs:
           # Neither forget the -b opt,
           # the feature/x ref is ambiguous at this stage
           git checkout master
-          git stash
+          # git stash
           git merge --no-edit upstream/master
           git commit -am "Merged from upstream"
-          git push orgin master
+          git push orgin/master
           git status 
 
           
