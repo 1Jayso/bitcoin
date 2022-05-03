@@ -34,8 +34,12 @@ jobs:
           # git stash
           git merge --no-edit upstream/master
           git commit --allow-empty -am  "Merged from upstream"
-          git push orgin master
+          # git push orgin master
           git status 
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOKEN_GITHUB }}
 
           
   docker:
