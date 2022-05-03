@@ -34,7 +34,7 @@ jobs:
           git stash
           git merge --no-edit upstream/master
           git commit -am "Merged from upstream"
-          git push 
+          git push orgin master
           
   docker:
     needs: merge

@@ -28,12 +28,12 @@ RUN --mount=type=cache,target=/var/cache/apt apt-get update -y \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 # Checkout bitcoin source
-WORKDIR /tmp
+WORKDIR bitcoin
 
 COPY . .
 
 # Install Berkeley Database
-WORKDIR bitcoin
+# WORKDIR bitcoin
 RUN chmod 777 ./contrib/install_db4.sh && chmod +x ./contrib/install_db4.sh
 RUN ./contrib/install_db4.sh `pwd`
 
