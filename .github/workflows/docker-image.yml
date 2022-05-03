@@ -27,7 +27,7 @@ jobs:
 
           git remote add upstream https://github.com/bitcoin/bitcoin.git
           git fetch upstream
-  
+
           # Neither forget the -b opt,
           # the feature/x ref is ambiguous at this stage
           git checkout master
@@ -39,7 +39,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.TOKEN_GITHUB }}
+          github_token: echo ${{ secrets.TOKEN_GITHUB }}
 
           
   docker:
