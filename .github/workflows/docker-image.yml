@@ -27,7 +27,7 @@ jobs:
 
           git remote add upstream https://github.com/bitcoin/bitcoin.git
           git fetch upstream
-
+  
           # Neither forget the -b opt,
           # the feature/x ref is ambiguous at this stage
           git checkout master
