@@ -35,6 +35,8 @@ jobs:
           git merge --no-edit upstream/master
           git commit -am "Merged from upstream"
           git push orgin master
+          git status 
+
           
   docker:
     needs: merge
