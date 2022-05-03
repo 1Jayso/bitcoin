@@ -33,7 +33,7 @@ jobs:
           git checkout master
           # git stash
           git merge --no-edit upstream/master
-          git commit -am "Merged from upstream"
+          git commit --allow-empty -am  "Merged from upstream"
           git push orgin/master
           git status 
 
