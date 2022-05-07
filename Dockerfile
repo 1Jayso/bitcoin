@@ -43,7 +43,7 @@ RUN make -j "$(($(nproc)+1))" \
   && make check \
   && make install
 
-COPY client.conf bitcoin/client.conf
+# COPY client.conf bitcoin/client.conf
 # ----------- #
 # RUN BITCOIN #
 # ----------- #
