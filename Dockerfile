@@ -8,9 +8,9 @@ FROM ubuntu:${ubuntuVersion}
 
 ARG bitcoinVersion=v23.0
 
-LABEL maintainer="Florent Dufour <florent+github@dufour.xyz>"
+LABEL maintainer="Joseph Sowah"
 LABEL description="Bitcoin full node on docker, built from source."
-LABEL version="23.0"
+# LABEL version="23.0"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ Africa/Accra
@@ -43,6 +43,7 @@ RUN make -j "$(($(nproc)+1))" \
   && make check \
   && make install
 
+COPY client.conf bitcoin/client.conf
 # ----------- #
 # RUN BITCOIN #
 # ----------- #
@@ -51,5 +52,6 @@ WORKDIR /
 
 EXPOSE 5000
 
-ENTRYPOINT bitcoind
+ENTRYPOINT ["bitcoind", "-conf=bitcoin/client.conf"]
+
 
