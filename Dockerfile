@@ -50,8 +50,8 @@ RUN make -j "$(($(nproc)+1))" \
 VOLUME /tmp/bitcoin:/root/.bitcoin
 WORKDIR /
 
-EXPOSE 5000
+EXPOSE 8333
 
-ENTRYPOINT ["bitcoind", "-conf=bitcoin/client.conf"]
+ENTRYPOINT ["bitcoind", "-conf=./client.conf"]
 
 
