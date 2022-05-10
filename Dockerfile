@@ -6,8 +6,6 @@ ARG ubuntuVersion=20.04
 
 FROM ubuntu:${ubuntuVersion}
 
-ARG bitcoinVersion=v23.0
-
 LABEL maintainer="Joseph Sowah"
 LABEL description="Bitcoin full node on docker, built from source."
 # LABEL version="23.0"
@@ -27,13 +25,19 @@ RUN --mount=type=cache,target=/var/cache/apt apt-get update -y \
   && rm -rf /root/.cache \
   && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
+RUN adduser sja &&  usermod -aG sudo sja
 # Checkout bitcoin source
-WORKDIR bitcoin
+WORKDIR /bitcoin
 
 COPY . .
 
 # Install Berkeley Database
 # WORKDIR bitcoin
+
+RUN chown sja.sja /bitcoin &&  chmod 777 -R /bitcoin
+
+# COPY client.conf bitcoin/client.conf 
+# RUN cat /client.conf 
 RUN chmod 777 ./contrib/install_db4.sh && chmod +x ./contrib/install_db4.sh
 RUN ./contrib/install_db4.sh `pwd`
 
@@ -47,11 +51,17 @@ RUN make -j "$(($(nproc)+1))" \
 # ----------- #
 # RUN BITCOIN #
 # ----------- #
+# COPY client.conf  /bitcoin/client.conf
+RUN mkdir -p bitcoin/data
+
 VOLUME /tmp/bitcoin:/root/.bitcoin
+
+
+
 WORKDIR /
 
 EXPOSE 8333
 
-ENTRYPOINT ["bitcoind", "-conf=./client.conf"]
+ENTRYPOINT ["bitcoind", "-conf=/bitcoin/client.conf"] 
 
 
