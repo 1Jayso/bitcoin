@@ -1402,12 +1402,21 @@ RPCHelpMan sendall()
             const CAmount fee_from_size{fee_rate.GetFee(tx_size.vsize)};
             const CAmount effective_value{total_input_value - fee_from_size};
 
+            if (fee_from_size > pwallet->m_default_max_tx_fee) {
+                throw JSONRPCError(RPC_WALLET_ERROR, TransactionErrorString(TransactionError::MAX_FEE_EXCEEDED).original);
+            }
+
             if (effective_value <= 0) {
                 if (send_max) {
                     throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Total value of UTXO pool too low to pay for transaction, try using lower feerate.");
                 } else {
                     throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Total value of UTXO pool too low to pay for transaction. Try using lower feerate or excluding uneconomic UTXOs with 'send_max' option.");
                 }
+            }
+
+            // If this transaction is too large, e.g. because the wallet has many UTXOs, it will be rejected by the node's mempool.
+            if (tx_size.weight > MAX_STANDARD_TX_WEIGHT) {
+                throw JSONRPCError(RPC_WALLET_ERROR, "Transaction too large.");
             }
 
             CAmount output_amounts_claimed{0};
