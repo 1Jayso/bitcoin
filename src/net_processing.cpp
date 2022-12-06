@@ -1743,6 +1743,8 @@ std::optional<std::string> PeerManagerImpl::FetchBlock(NodeId peer_id, const CBl
     LOCK(cs_main);
 
     // Mark block as in-flight unless it already is (for this peer).
+    // If the peer does not send us a block, vBlocksInFlight remains non-empty,
+    // causing us to timeout and disconnect.
     // If a block was already in-flight for a different peer, its BLOCKTXN
     // response will be dropped.
     if (!BlockRequested(peer_id, block_index)) return "Already requested from this peer";
@@ -2298,9 +2300,9 @@ void PeerManagerImpl::ProcessGetData(CNode& pfrom, Peer& peer, const std::atomic
             std::vector<uint256> parent_ids_to_add;
             {
                 LOCK(m_mempool.cs);
-                auto txiter = m_mempool.GetIter(tx->GetHash());
-                if (txiter) {
-                    const CTxMemPoolEntry::Parents& parents = (*txiter)->GetMemPoolParentsConst();
+                auto tx_iter = m_mempool.GetIter(tx->GetHash());
+                if (tx_iter) {
+                    const CTxMemPoolEntry::Parents& parents = (*tx_iter)->GetMemPoolParentsConst();
                     parent_ids_to_add.reserve(parents.size());
                     for (const CTxMemPoolEntry& parent : parents) {
                         if (parent.GetTime() > now - UNCONDITIONAL_RELAY_DELAY) {
