@@ -13,7 +13,7 @@ if [ "$CI_OS_NAME" == "macos" ]; then
   echo "Number of CPUs: $(sysctl -n hw.logicalcpu)"
 else
   free -m -h
-  echo "Number of CPUs \(nproc\):" \$\(nproc\)
+  echo "Number of CPUs (nproc): $(nproc)"
   lscpu | grep Endian
 fi
 echo "Free disk space:"
@@ -103,9 +103,6 @@ make distdir VERSION="$HOST"
 cd "${BASE_BUILD_DIR}/bitcoin-$HOST"
 
 bash -c "./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL $BITCOIN_CONFIG" || ( (cat config.log) && false)
-
-set -o errtrace
-trap 'bash -c "cat ${BASE_SCRATCH_DIR}/sanitizer-output/* 2> /dev/null"' ERR
 
 if [[ ${USE_MEMORY_SANITIZER} == "true" ]]; then
   # MemorySanitizer (MSAN) does not support tracking memory initialization done by
